@@ -15,14 +15,14 @@ class OneCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'adong';
+    protected $signature = 'adong:config';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'one helper for dcat-admin';
+    protected $description = 'one helper for dcat-admin with one config';
 
      /**
      * Execute the console command.

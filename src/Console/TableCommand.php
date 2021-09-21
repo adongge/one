@@ -58,14 +58,14 @@ class TableCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'adong:table';
+    protected $signature = 'adong:tables';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'one helper for dcat-admin get db table list';
+    protected $description = 'one helper for dcat-admin with database tables';
 
      /**
      * Execute the console command.
