@@ -1,0 +1,25 @@
+{
+    "name": "adong/one",
+    "description": "a helper for dcat/laravel-admin",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Adong\\One\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "adong",
+            "email": "adddge@sohu.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {},
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Adong\\One\\OneServiceProvider"
+            ]
+        }
+    }
+}
