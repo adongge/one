@@ -11,7 +11,7 @@ class OneServiceProvider extends ServiceProvider
      * @var array
      */
     protected $commands = [
-        Console\OneCommand::class,
+        Console\ConfigCommand::class,
         Console\TableCommand::class
     ];
 

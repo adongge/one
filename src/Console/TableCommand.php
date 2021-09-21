@@ -73,6 +73,10 @@ class TableCommand extends Command
     public function handle()
     {
         $this->line('one helper command');
+        if (!file_exists(config_path('one').'.php')) {
+            $this->call('vendor:publish', ['--tag' => 'adong-one-config']);
+            $this->call('view:clear');
+        }
         $db = config('database.connections.mysql.database');
         $tables =  $this->tableList($db, config('one.except'));
         foreach ($tables as $name) {
@@ -94,21 +98,23 @@ class TableCommand extends Command
             $item['fields'] = $fields;
             $path = [];
             $path = Helper::guessClassFileName($item['model']);
-            $files->delete($path);
+            //$files->delete($path);
             if (!$files->exists($path)) {
                 $paths['model'] = (new ModelCreator($item['table'], $item['model']))
                             ->create( $item['primary_key'], $item['timestamps'], $item['soft_deletes']);
                 $this->comment('created model:'.$path);
             }
             $path = Helper::guessClassFileName($item['controller']);
-            $files->delete($path);
+            //$files->delete($path);
             if (!$files->exists($path)) {
                 $paths['controller'] = (new ControllerCreator($item['controller']))
                                 ->create($item);
                 $this->comment('created controller:'.$path);
             }
             $paths['lang'] = (new LangCreator($fields))->create($item['controller']);
+            $this->comment('created lang');
             $paths['repository'] = (new RepositoryCreator())->create($item['model'], $item['repository']);
+            $this->comment('created repository');
         }
         $this->info('success');
     }

@@ -3,12 +3,13 @@
 namespace Adong\One\Console;
 
 use Adong\One\Scaffold\ControllerCreator;
+use Dcat\Admin\Scaffold\LangCreator;
 use Dcat\Admin\Scaffold\ModelCreator;
+use Dcat\Admin\Scaffold\RepositoryCreator;
 use Dcat\Admin\Support\Helper;
 use Illuminate\Console\Command;
-use Illuminate\Support\Arr;
 
-class OneCommand extends Command
+class ConfigCommand extends Command
 {
     /**
      * The name and signature of the console command.
@@ -41,18 +42,25 @@ class OneCommand extends Command
         foreach ($list as $item) {
             $path = [];
             $path = Helper::guessClassFileName($item['model']);
-            $files->delete($path);
-            if (!$files->exists($path)) {
+            // $files->delete($path);
+            if (!$files->exists($path) && isset($item['model']) && $item['model']) {
                 $paths['model'] = (new ModelCreator($item['table'], $item['model']))
-                            ->create( $item['primary_key'], $item['timestamps'], $item['soft_deletes']);
+                                ->create( $item['primary_key'], $item['timestamps'], $item['soft_deletes']);
                 $this->comment('created model:'.$path);
             }
             $path = Helper::guessClassFileName($item['controller']);
-            $files->delete($path);
-            if (!$files->exists($path)) {
-                $paths['controller'] = (new ControllerCreator($item['controller']))
-                                ->create($item);
+            // $files->delete($path);
+            if (!$files->exists($path) && isset($item['controller']) && $item['controller']) {
+                $paths['controller'] = (new ControllerCreator($item['controller']))->create($item);
                 $this->comment('created controller:'.$path);
+            }
+            if($item['lang']){
+                $paths['lang'] = (new LangCreator($item['fields']))->create($item['controller']);
+                $this->comment('created lang');
+            }
+            if($item['repository']){
+                $paths['repository'] = (new RepositoryCreator())->create($item['model'], $item['repository']);
+                $this->comment('created repository');
             }
         }
         $this->info('create success');
