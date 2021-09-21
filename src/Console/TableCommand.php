@@ -76,47 +76,49 @@ class TableCommand extends Command
         if (!file_exists(config_path('one').'.php')) {
             $this->call('vendor:publish', ['--tag' => 'adong-one-config']);
             $this->call('view:clear');
-        }
-        $db = config('database.connections.mysql.database');
-        $tables =  $this->tableList($db, config('one.except'));
-        foreach ($tables as $name) {
-            $fields = $this->tableData($db, $name);
-            $modelName = ucfirst(Str::of($name)->camel());
-            $item = [
-                'table'        => $name,
-                'model'        => 'App\\Models\\'.$modelName,
-                'controller'   => 'App\\Admin\\Controllers\\'.$modelName.'Controller',
-                'repository'   => 'App\\Admin\\Repositories\\'.$modelName,
-                'migration'    => '',
-                'migrate'      => '',
-                'primary_key'  => 'id',
-                'timestamps'   => 1,
-                'soft_deletes' => 1,
-                'lang'         => 1
-            ];
-            $files = app('files');
-            $item['fields'] = $fields;
-            $path = [];
-            $path = Helper::guessClassFileName($item['model']);
-            //$files->delete($path);
-            if (!$files->exists($path)) {
-                $paths['model'] = (new ModelCreator($item['table'], $item['model']))
-                            ->create( $item['primary_key'], $item['timestamps'], $item['soft_deletes']);
-                $this->comment('created model:'.$path);
+            $this->line('no have config file , try it agian');
+        }else{
+            $db = config('database.connections.mysql.database');
+            $tables =  $this->tableList($db, config('one.except'));
+            foreach ($tables as $name) {
+                $fields = $this->tableData($db, $name);
+                $modelName = ucfirst(Str::of($name)->camel());
+                $item = [
+                    'table'        => $name,
+                    'model'        => 'App\\Models\\'.$modelName,
+                    'controller'   => 'App\\Admin\\Controllers\\'.$modelName.'Controller',
+                    'repository'   => 'App\\Admin\\Repositories\\'.$modelName,
+                    'migration'    => '',
+                    'migrate'      => '',
+                    'primary_key'  => 'id',
+                    'timestamps'   => 1,
+                    'soft_deletes' => 1,
+                    'lang'         => 1
+                ];
+                $files = app('files');
+                $item['fields'] = $fields;
+                $path = [];
+                $path = Helper::guessClassFileName($item['model']);
+                //$files->delete($path);
+                if (!$files->exists($path)) {
+                    $paths['model'] = (new ModelCreator($item['table'], $item['model']))
+                                ->create( $item['primary_key'], $item['timestamps'], $item['soft_deletes']);
+                    $this->comment('created model:'.$path);
+                }
+                $path = Helper::guessClassFileName($item['controller']);
+                //$files->delete($path);
+                if (!$files->exists($path)) {
+                    $paths['controller'] = (new ControllerCreator($item['controller']))
+                                    ->create($item);
+                    $this->comment('created controller:'.$path);
+                }
+                $paths['lang'] = (new LangCreator($fields))->create($item['controller']);
+                $this->comment('created lang');
+                $paths['repository'] = (new RepositoryCreator())->create($item['model'], $item['repository']);
+                $this->comment('created repository');
             }
-            $path = Helper::guessClassFileName($item['controller']);
-            //$files->delete($path);
-            if (!$files->exists($path)) {
-                $paths['controller'] = (new ControllerCreator($item['controller']))
-                                ->create($item);
-                $this->comment('created controller:'.$path);
-            }
-            $paths['lang'] = (new LangCreator($fields))->create($item['controller']);
-            $this->comment('created lang');
-            $paths['repository'] = (new RepositoryCreator())->create($item['model'], $item['repository']);
-            $this->comment('created repository');
+            $this->info('success');
         }
-        $this->info('success');
     }
 
      /**

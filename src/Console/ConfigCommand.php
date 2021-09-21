@@ -31,38 +31,39 @@ class ConfigCommand extends Command
     public function handle()
     {
         $this->line('one helper command');
-
         if (!file_exists(config_path('one').'.php')) {
             $this->call('vendor:publish', ['--tag' => 'adong-one-config']);
             $this->call('view:clear');
-        }
-        $files = app('files');
+            $this->line('no have config file , try it agian');
+        }else{
+            $files = app('files');
 
-        $list = config('one.list');
-        foreach ($list as $item) {
-            $path = [];
-            $path = Helper::guessClassFileName($item['model']);
-            // $files->delete($path);
-            if (!$files->exists($path) && isset($item['model']) && $item['model']) {
-                $paths['model'] = (new ModelCreator($item['table'], $item['model']))
-                                ->create( $item['primary_key'], $item['timestamps'], $item['soft_deletes']);
-                $this->comment('created model:'.$path);
+            $list = config('one.list');
+            foreach ($list as $item) {
+                $path = [];
+                $path = Helper::guessClassFileName($item['model']);
+                // $files->delete($path);
+                if (!$files->exists($path) && isset($item['model']) && $item['model']) {
+                    $paths['model'] = (new ModelCreator($item['table'], $item['model']))
+                                    ->create( $item['primary_key'], $item['timestamps'], $item['soft_deletes']);
+                    $this->comment('created model:'.$path);
+                }
+                $path = Helper::guessClassFileName($item['controller']);
+                // $files->delete($path);
+                if (!$files->exists($path) && isset($item['controller']) && $item['controller']) {
+                    $paths['controller'] = (new ControllerCreator($item['controller']))->create($item);
+                    $this->comment('created controller:'.$path);
+                }
+                if($item['lang']){
+                    $paths['lang'] = (new LangCreator($item['fields']))->create($item['controller']);
+                    $this->comment('created lang');
+                }
+                if($item['repository']){
+                    $paths['repository'] = (new RepositoryCreator())->create($item['model'], $item['repository']);
+                    $this->comment('created repository');
+                }
             }
-            $path = Helper::guessClassFileName($item['controller']);
-            // $files->delete($path);
-            if (!$files->exists($path) && isset($item['controller']) && $item['controller']) {
-                $paths['controller'] = (new ControllerCreator($item['controller']))->create($item);
-                $this->comment('created controller:'.$path);
-            }
-            if($item['lang']){
-                $paths['lang'] = (new LangCreator($item['fields']))->create($item['controller']);
-                $this->comment('created lang');
-            }
-            if($item['repository']){
-                $paths['repository'] = (new RepositoryCreator())->create($item['model'], $item['repository']);
-                $this->comment('created repository');
-            }
-        }
-        $this->info('create success');
+            $this->info('create success');
+        } 
     }
 }
