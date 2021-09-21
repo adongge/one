@@ -23,7 +23,8 @@ return [
                'key' => 'PRI',
                'nullable' => 'NO',
                'comment' => '',
-               'default' => ''
+               'default' => '',
+               'translation' => ''
             ],
             [
                'name' => 'parent_id',
@@ -31,7 +32,8 @@ return [
                'key' => '',
                'nullable' => 'NO',
                'comment' => '',
-               'default' => '0'
+               'default' => '0',
+               'translation' => ''
             ],
             [
                'name' => 'order',
@@ -39,7 +41,8 @@ return [
                'key' => '',
                'nullable' => 'NO',
                'comment' => '',
-               'default' => '0'
+               'default' => '0',
+               'translation' => ''
             ],
             [
                'name' => 'title',
@@ -47,7 +50,8 @@ return [
                'key' => '',
                'nullable' => 'NO',
                'comment' => '',
-               'default' => ''
+               'default' => '',
+               'translation' => ''
             ],
             [
                'name' => 'icon',
@@ -55,7 +59,8 @@ return [
                'key' => '',
                'nullable' => 'YES',
                'comment' => '',
-               'default' => ''
+               'default' => '',
+               'translation' => ''
             ],
             [
                'name' => 'uri',
@@ -63,7 +68,8 @@ return [
                'key' => '',
                'nullable' => 'YES',
                'comment' => '',
-               'default' => ''
+               'default' => '',
+               'translation' => ''
             ],
             [
                'name' => 'created_at',
@@ -71,7 +77,8 @@ return [
                'key' => '',
                'nullable' => 'YES',
                'comment' => '',
-               'default' => ''
+               'default' => '',
+               'translation' => ''
             ],
             [
                'name' => 'updated_at',
@@ -79,7 +86,8 @@ return [
                'key' => '',
                'nullable' => 'YES',
                'comment' => '',
-               'default' => ''
+               'default' => '',
+               'translation' => ''
             ]
          ]
       ]
