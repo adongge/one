@@ -12,3 +12,11 @@
     }
 }
 ```
+
+# 使用
+```
+# 根据配置文件生成
+php artisan adong:config 
+# 根据数据库表生成
+php artisan adong:tables
+```

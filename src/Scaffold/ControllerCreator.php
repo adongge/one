@@ -2,10 +2,10 @@
 namespace Adong\One\Scaffold;
 
 use Dcat\Admin\Scaffold\ControllerCreator as BaseCreator;
-use Dcat\Admin\Support\Helper;
 
 class ControllerCreator extends BaseCreator
 {
+    use OneFormCreator;
      /**
      * ControllerCreator constructor.
      *
@@ -79,42 +79,8 @@ class ControllerCreator extends BaseCreator
                 class_basename($model),
                 $slug,
                 $this->generateGrid($models['primary_key'], $models['fields'], $models['timestamps']),
-                $this->generateForm($models['primary_key'], $models['fields'], $models['timestamps']),
+                $this->oneGenerateForm($models['primary_key'], $models['fields'], $models['timestamps']),
                 $this->generateShow($models['primary_key'], $models['fields'], $models['timestamps']),
-            ],
-            $stub
-        );
-    }
-
-    /**
-     * @param string $stub
-     * @param string $name
-     * @param string $model
-     *
-     * @return string
-     */
-    protected function replace($stub, $name, $model, $slug)
-    {
-        $stub = $this->replaceClass($stub, $name);
-
-        return str_replace(
-            [
-                'DummyModelNamespace',
-                'DummyModel',
-                'DummyTitle',
-                '{controller}',
-                '{grid}',
-                '{form}',
-                '{show}',
-            ],
-            [
-                $model,
-                class_basename($model),
-                class_basename($model),
-                $slug,
-                $this->generateGrid(),
-                $this->generateForm(),
-                $this->generateShow(),
             ],
             $stub
         );

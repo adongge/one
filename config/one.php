@@ -33,7 +33,8 @@ return [
                'nullable' => 'NO',
                'comment' => '',
                'default' => '0',
-               'translation' => ''
+               'translation' => '',
+               'form' => 'number'
             ],
             [
                'name' => 'order',
@@ -60,7 +61,8 @@ return [
                'nullable' => 'YES',
                'comment' => '',
                'default' => '',
-               'translation' => ''
+               'translation' => '',
+               'form' => 'image'
             ],
             [
                'name' => 'uri',
