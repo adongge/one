@@ -17,8 +17,10 @@ class OneServiceProvider extends ServiceProvider
 
     public function boot()
     {
+        // php artisan vendor:publish --tag=adong-one-migrations
         if ($this->app->runningInConsole()) {
             $this->publishes([__DIR__.'/../config' => config_path()], 'adong-one-config');
+            $this->publishes([__DIR__.'/../database/migrations' => database_path('migrations')], 'adong-one-migrations');
         }
     }
 

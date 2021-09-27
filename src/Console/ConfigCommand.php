@@ -31,14 +31,14 @@ class ConfigCommand extends Command
     public function handle()
     {
         $this->line('one helper command');
-        if (!file_exists(config_path('one').'.php')) {
+        if (!file_exists(config_path('one/app').'.php')) {
             $this->call('vendor:publish', ['--tag' => 'adong-one-config']);
             $this->call('view:clear');
             $this->line('no have config file , try it agian');
         }else{
             $files = app('files');
 
-            $list = config('one.list');
+            $list = config('one.app.list');
             foreach ($list as $item) {
                 $path = [];
                 $path = Helper::guessClassFileName($item['model']);
