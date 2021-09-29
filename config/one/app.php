@@ -2,7 +2,7 @@
 
 return [
    'except' => [ //排除的表
-
+      'ad'
    ],
    'list' => [
       [

@@ -15,6 +15,8 @@
 
 # 使用
 ```
+# 发布配置文件和迁移文件
+php artisan adong:publish
 # 根据配置文件生成
 php artisan adong:config 
 # 根据数据库表生成
