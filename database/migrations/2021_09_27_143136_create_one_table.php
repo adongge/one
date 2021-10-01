@@ -6,11 +6,13 @@ use Illuminate\Support\Facades\Schema;
 
 class CreateOneTable extends Migration
 {
-    public $prefix = 'one_';
+    public $prefix = '';
+    public $one_prefix = 'one_';
 
     public function __construct()
     {
-        $this->prefix = config('one.app.database.prefix', 'one_');
+        $this->prefix = config('database.connections.mysql.prefix');
+        $this->one_prefix = config('one.app.database.prefix', 'one_');
     }
     
     /**
@@ -20,19 +22,38 @@ class CreateOneTable extends Migration
      */
     public function up()
     {
-        Schema::create($this->prefix.'_user', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
+        Schema::create($this->one_prefix . 'user_binding', function (Blueprint $table) {
+            $table->increments('id');
+            $table->unsignedInteger('user_id')->nullable()->comment('绑定的用户ID');
+            $table->string('type')->default('wx_app')->comment('wx_app:微信小程序');  
+            $table->string('app_id');
+            $table->string('open_id');
+            $table->string('nick_name')->nullable();
+            $table->string('sex')->nullable();
+            $table->string('email')->nullable();
+            $table->string('avatar')->nullable();
+            $table->string('city')->nullable();
+            $table->string('province')->nullable();
+            $table->string('country')->nullable();
+            $table->string('language')->nullable();
+            $table->string('unionid')->nullable();
+
+            $table->unique(['app_id', 'open_id'],'unique_app_open_id');
+            $table->foreign('user_id')
+                ->references('id')
+                ->on($this->prefix . 'users')
+                ->onDelete('cascade');
         });
+        \Illuminate\Support\Facades\DB::statement("alter table {$this->one_prefix}user_binding comment '用户绑定表'");
     }
 
     /**
-     * Reverse the migrations.
+     * Reverse the migrations
      *
      * @return void
      */
     public function down()
     {
-        Schema::dropIfExists($this->prefix.'_user');
+        Schema::dropIfExists($this->one_prefix.'user_binding');
     }
 }

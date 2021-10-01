@@ -14,7 +14,10 @@
         }
     ],
     "minimum-stability": "dev",
-    "require": {},
+    "require": {
+        "php": "^7.3|^8.0",
+        "dcat/laravel-admin": "^1.7"
+    },
     "extra": {
         "laravel": {
             "providers": [
