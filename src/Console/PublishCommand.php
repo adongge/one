@@ -39,5 +39,7 @@ class PublishCommand extends Command
         $this->call('vendor:publish', $options);
         $options['--tag'] = 'adong-one-migrations';
         $this->call('vendor:publish', $options);
+
+        $this->call('admin:publish');//dcat-admin
     }
 }
