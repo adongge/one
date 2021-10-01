@@ -41,5 +41,6 @@ class PublishCommand extends Command
         $this->call('vendor:publish', $options);
 
         $this->call('admin:publish');//dcat-admin
+        $this->call('admin:install');//dcat-admin
     }
 }

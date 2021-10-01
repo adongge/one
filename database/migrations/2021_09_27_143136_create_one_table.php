@@ -24,7 +24,7 @@ class CreateOneTable extends Migration
     {
         Schema::create($this->one_prefix . 'user_binding', function (Blueprint $table) {
             $table->increments('id');
-            $table->unsignedInteger('user_id')->nullable()->comment('绑定的用户ID');
+            $table->unsignedBigInteger('user_id')->nullable()->comment('绑定的用户ID');
             $table->string('type')->default('wx_app')->comment('wx_app:微信小程序');  
             $table->string('app_id');
             $table->string('open_id');
