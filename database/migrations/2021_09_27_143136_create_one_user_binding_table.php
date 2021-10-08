@@ -4,10 +4,10 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateOneTable extends Migration
+class CreateOneUserBindingTable extends Migration
 {
     public $prefix = '';
-    public $one_prefix = 'one_';
+    public $one_prefix = '';
 
     public function __construct()
     {
