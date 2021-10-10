@@ -2,7 +2,20 @@
 
 return [
    'except' => [ //排除的表
-      'ad'
+      'admin_menu',
+      'admin_operation_log',
+      'admin_permissions',
+      'admin_role_menu',
+      'admin_permission_menu',
+      'admin_role_permissions',
+      'admin_roles',
+      'admin_role_users',
+      'admin_users',
+      'failed_jobs',
+      'migrations',
+      'password_resets',
+      'personal_access_tokens',
+      'users'
    ],
    'list' => [
       [
