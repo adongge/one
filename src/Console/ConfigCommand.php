@@ -4,6 +4,7 @@ namespace Adong\One\Console;
 
 use Adong\One\Scaffold\ControllerCreator;
 use Dcat\Admin\Scaffold\LangCreator;
+use Dcat\Admin\Scaffold\MigrationCreator;
 use Dcat\Admin\Scaffold\ModelCreator;
 use Dcat\Admin\Scaffold\RepositoryCreator;
 use Dcat\Admin\Support\Helper;
@@ -56,6 +57,14 @@ class ConfigCommand extends Command
                 $paths['repository'] = (new RepositoryCreator())->create($item['model'], $item['repository']);
                 $this->comment('created repository');
             }
+
+            $migrationName = 'create_'.$item['table'].'_table';
+            $paths['migration'] = (new MigrationCreator(app('files')))->buildBluePrint(
+                $item['fields'],
+                $item['primary_key'],
+                $item['timestamps'] == 1,
+                $item['soft_deletes'] == 1
+            )->create($migrationName, database_path('migrations'), $item['table']);
         }
         $this->info('create success');
     }
