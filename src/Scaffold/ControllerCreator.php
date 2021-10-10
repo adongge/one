@@ -28,7 +28,7 @@ class ControllerCreator extends BaseCreator
      */
     public function create($models)
     {
-        $model = $models['model'];
+        $model = 'App\\Models\\'.$models['class_name'];
         $path = $this->getPath($this->name);
         $dir = dirname($path);
 

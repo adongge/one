@@ -33,38 +33,42 @@ class ConfigCommand extends Command
     {
         $this->line('one helper command');
         $files = app('files');
-        $list = config('one/app.list');
+        $list = config('one.app.list');
         foreach ($list as $item) {
             $path = [];
-            $path = Helper::guessClassFileName($item['model']);
+            $model = 'App\\Models\\'.$item['class_name'];
+            $path = Helper::guessClassFileName($model);
             // $files->delete($path);
-            if (!$files->exists($path) && isset($item['model']) && $item['model']) {
-                $paths['model'] = (new ModelCreator($item['table'], $item['model']))
+            if (!$files->exists($path) && isset($item['model']) && $item['class_name']) {
+                $paths['model'] = (new ModelCreator($item['table'], $model))
                                 ->create( $item['primary_key'], $item['timestamps'], $item['soft_deletes']);
                 $this->comment('created model:'.$path);
             }
-            $path = Helper::guessClassFileName($item['controller']);
+            $controller = 'App\\Admin\\Controllers\\'.$item['class_name'].'Controller';
+            $path = Helper::guessClassFileName($controller);
             // $files->delete($path);
             if (!$files->exists($path) && isset($item['controller']) && $item['controller']) {
-                $paths['controller'] = (new ControllerCreator($item['controller']))->create($item);
+                $paths['controller'] = (new ControllerCreator($controller))->create($item);
                 $this->comment('created controller:'.$path);
             }
             if($item['lang']){
-                $paths['lang'] = (new LangCreator($item['fields']))->create($item['controller']);
+                $paths['lang'] = (new LangCreator($item['fields']))->create($controller);
                 $this->comment('created lang');
             }
             if($item['repository']){
-                $paths['repository'] = (new RepositoryCreator())->create($item['model'], $item['repository']);
+                $repositories = 'App\\Admin\\Repositories\\'.$item['class_name'];
+                $paths['repository'] = (new RepositoryCreator())->create($item['class_name'], $repositories);
                 $this->comment('created repository');
             }
-
-            $migrationName = 'create_'.$item['table'].'_table';
-            $paths['migration'] = (new MigrationCreator(app('files')))->buildBluePrint(
-                $item['fields'],
-                $item['primary_key'],
-                $item['timestamps'] == 1,
-                $item['soft_deletes'] == 1
-            )->create($migrationName, database_path('migrations'), $item['table']);
+            if ($item['migration']) {
+                $migrationName = 'create_'.$item['table'].'_table';
+                $paths['migration'] = (new MigrationCreator(app('files')))->buildBluePrint(
+                    $item['fields'],
+                    $item['primary_key'],
+                    $item['timestamps'] == 1,
+                    $item['soft_deletes'] == 1
+                )->create($migrationName, database_path('migrations'), config('one.app.replace_prefix').$item['table']);
+            }
         }
         $this->info('create success');
     }

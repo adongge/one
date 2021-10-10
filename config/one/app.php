@@ -18,28 +18,45 @@ return [
       'users'
    ],
    'replace_prefix' => '',
+   // 'int'                => 'integer',
+   // 'int@unsigned'       => 'unsignedInteger',
+   // 'tinyint'            => 'tinyInteger',
+   // 'tinyint@unsigned'   => 'unsignedTinyInteger',
+   // 'smallint'           => 'smallInteger',
+   // 'smallint@unsigned'  => 'unsignedSmallInteger',
+   // 'mediumint'          => 'mediumInteger',
+   // 'mediumint@unsigned' => 'unsignedMediumInteger',
+   // 'bigint'             => 'bigInteger',
+   // 'bigint@unsigned'    => 'unsignedBigInteger',
+   // 'date'      => 'date',
+   // 'time'      => 'time',
+   // 'datetime'  => 'dateTime',
+   // 'timestamp' => 'timestamp',
+   // 'enum'   => 'enum',
+   // 'json'   => 'json',
+   // 'binary' => 'binary',
+   // 'float'   => 'float',
+   // 'double'  => 'double',
+   // 'decimal' => 'decimal',
+   // 'varchar'    => 'string',
+   // 'char'       => 'char',
+   // 'text'       => 'text',
+   // 'mediumtext' => 'mediumText',
+   // 'longtext'   => 'longText',
    'list' => [
       [
          'table'        => 'adong_table',
-         'model'        => 'App\Models\AdongTable',
-         'controller'   => 'App\Admin\Controllers\AdongTableController',
-         'repository'     => '',
-         'migration'    => '',
-         'migrate'      => '',
+         'class_name'        => 'AdongTable',
+         'model' => 1,
+         'controller'   => 1,
+         'repository'     => 1,
+         'migration'    => 1,
+         'migrate'      => 1,
          'primary_key'  => 'id',
          'timestamps'   => 1,
          'soft_deletes' => 1,
          'lang'         => 1,
          'fields' => [
-            [
-               'name' => 'id',
-               'type' => 'unsignedBigInteger',
-               'key' => 'PRI',
-               'nullable' => 'NO',
-               'comment' => '',
-               'default' => '',
-               'translation' => ''
-            ],
             [
                'name' => 'parent_id',
                'type' => 'bigInteger',
@@ -51,24 +68,6 @@ return [
                'form' => 'number'
             ],
             [
-               'name' => 'order',
-               'type' => 'integer',
-               'key' => '',
-               'nullable' => 'NO',
-               'comment' => '',
-               'default' => '0',
-               'translation' => ''
-            ],
-            [
-               'name' => 'title',
-               'type' => 'string',
-               'key' => '',
-               'nullable' => 'NO',
-               'comment' => '',
-               'default' => '',
-               'translation' => ''
-            ],
-            [
                'name' => 'icon',
                'type' => 'string',
                'key' => '',
@@ -77,33 +76,6 @@ return [
                'default' => '',
                'translation' => '',
                'form' => 'image'
-            ],
-            [
-               'name' => 'uri',
-               'type' => 'string',
-               'key' => '',
-               'nullable' => 'YES',
-               'comment' => '',
-               'default' => '',
-               'translation' => ''
-            ],
-            [
-               'name' => 'created_at',
-               'type' => 'timestamp',
-               'key' => '',
-               'nullable' => 'YES',
-               'comment' => '',
-               'default' => '',
-               'translation' => ''
-            ],
-            [
-               'name' => 'updated_at',
-               'type' => 'timestamp',
-               'key' => '',
-               'nullable' => 'YES',
-               'comment' => '',
-               'default' => '',
-               'translation' => ''
             ]
          ]
       ]
