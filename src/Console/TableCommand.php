@@ -77,7 +77,7 @@ class TableCommand extends Command
         $tables =  $this->tableList($db, config('one.app.except'));
         foreach ($tables as $name) {
             $fields = $this->tableData($db, $name);
-            $modelName = ucfirst(Str::of($name)->camel());
+            $modelName = ucfirst(Str::of( str_replace( config('one.app.replace_prefix'), '', $name)  )->camel());
             $item = [
                 'table'        => $name,
                 'model'        => 'App\\Models\\'.$modelName,

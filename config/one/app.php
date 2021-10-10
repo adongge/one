@@ -17,6 +17,7 @@ return [
       'personal_access_tokens',
       'users'
    ],
+   'replace_prefix' => '',
    'list' => [
       [
          'table'        => 'adong_table',
