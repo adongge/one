@@ -9,6 +9,7 @@ use Dcat\Admin\Scaffold\ModelCreator;
 use Dcat\Admin\Scaffold\RepositoryCreator;
 use Dcat\Admin\Support\Helper;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Artisan;
 
 class ConfigCommand extends Command
 {
@@ -68,6 +69,19 @@ class ConfigCommand extends Command
                     $item['timestamps'] == 1,
                     $item['soft_deletes'] == 1
                 )->create($migrationName, database_path('migrations'), config('one.app.replace_prefix').$item['table']);
+            }
+            // Run migrate.
+            if ($item['migration']) {
+                Artisan::call('migrate');
+                $message = Artisan::output();
+            }
+            // Make ide helper file.
+            if ($item['migration'] || $item['controller']) {
+                try {
+                    Artisan::call('admin:ide-helper', ['-c' => $controller]);
+                    $paths['ide-helper'] = 'dcat_admin_ide_helper.php';
+                } catch (\Throwable $e) {
+                }
             }
         }
         $this->info('create success');
