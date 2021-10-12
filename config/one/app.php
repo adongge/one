@@ -17,46 +17,69 @@ return [
       'personal_access_tokens',
       'users'
    ],
-   'replace_prefix' => '',
-   // 'int'                => 'integer', 'int@unsigned' => 'unsignedInteger','tinyint' => 'tinyInteger',
-   // 'tinyint@unsigned'   => 'unsignedTinyInteger','smallint' => 'smallInteger', 'smallint@unsigned'  => 'unsignedSmallInteger',
-   // 'mediumint'          => 'mediumInteger','mediumint@unsigned' => 'unsignedMediumInteger','bigint'  => 'bigInteger',
-   // 'bigint@unsigned'    => 'unsignedBigInteger','date' => 'date','time' => 'time', 'datetime'  => 'dateTime', 'timestamp' => 'timestamp',
-   // 'enum'   => 'enum','json'   => 'json','binary' => 'binary', 'float'   => 'float', 'double'  => 'double','decimal' => 'decimal',
-   // 'varchar'    => 'string','char' => 'char','text' => 'text','mediumtext' => 'mediumText','longtext'   => 'longText',
+   'replace_prefix' => 'dasf_',
+   // 'integer',
+   // 'unsignedInteger',
+   // 'tinyInteger',
+   // 'unsignedTinyInteger',
+   // 'smallInteger',
+   // 'unsignedSmallInteger',
+   // 'mediumInteger',
+   // 'unsignedMediumInteger',
+   // 'bigInteger',
+   // 'unsignedBigInteger',
+   // 'date',
+   // 'time',
+   // 'dateTime',
+   // 'timestamp',
+   // 'enum',
+   // 'json',
+   // 'binary',
+   // 'float',
+   // 'double',
+   // 'decimal',
+   // 'string',
+   // 'char',
+   // 'text',
+   // 'mediumText',
+   // 'longText'
    'list' => [
       [
-         'table'        => 'adong_table',//表名
-         'class_name'   => 'AdongTable',//实例名
+         'table'        => 'dasf_user',//表名
+         'class_name'   => 'DUser',//实例名
          'primary_key'  => 'id',//主键
          'model'        => 1,
          'controller'   => 1,
          'repository'   => 1,
          'migration'    => 1,
-         'migrate'      => 1,
+         'migrate'      => 0,
          'timestamps'   => 1,
          'soft_deletes' => 1,
          'lang'         => 1,
+         // $table->string('name')->comment('预约人');
+         // $table->string('mobile')->unique()->comment('手机');
+         // $table->dateTime('time_start')->comment('预约时间');
+         // $table->integer('total')->comment('本次服务');
+         // $table->dateTime('created_at')->nullable();
+         // $table->dateTime('updated_at')->nullable();
+         // $table->dateTime('deleted_at')->nullable();
          'fields' => [
             [
-               'name' => 'parent_id',
-               'type' => 'bigInteger',
-               'key' => '',
-               'nullable' => 'NO',
-               'comment' => '',
-               'default' => '0',
-               'translation' => '',
-               'form' => 'number'
-            ],
-            [
-               'name' => 'icon',
+               'name' => 'name',
                'type' => 'string',
                'key' => '',
-               'nullable' => 'YES',
-               'comment' => '',
-               'default' => '',
-               'translation' => '',
-               'form' => 'image'
+               'nullable' => 'NO',
+               'comment' => '预约人',
+               'translation' => '预约'
+            ],
+            [
+               'name' => 'mobile',
+               'type' => 'string',
+               'key' => '',
+               'nullable' => 'NO',
+               'comment' => '手机',
+               'translation' => '手机',
+               'form' => 'mobile'
             ]
          ]
       ]

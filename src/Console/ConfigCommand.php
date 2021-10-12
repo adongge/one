@@ -54,7 +54,7 @@ class ConfigCommand extends Command
             }
             if($item['lang']){
                 $paths['lang'] = (new LangCreator($item['fields']))->create($controller);
-                $this->comment('created lang');
+                $this->comment('created lang:'.$paths['lang']);
             }
             if($item['repository']){
                 $repositories = 'App\\Admin\\Repositories\\'.$item['class_name'];
@@ -71,12 +71,12 @@ class ConfigCommand extends Command
                 )->create($migrationName, database_path('migrations'), config('one.app.replace_prefix').$item['table']);
             }
             // Run migrate.
-            if ($item['migration']) {
+            if ($item['migrate']) {
                 Artisan::call('migrate');
                 $message = Artisan::output();
             }
             // Make ide helper file.
-            if ($item['migration'] || $item['controller']) {
+            if ($item['migrate'] || $item['controller']) {
                 try {
                     Artisan::call('admin:ide-helper', ['-c' => $controller]);
                     $paths['ide-helper'] = 'dcat_admin_ide_helper.php';

@@ -33,20 +33,16 @@ class TableCommand extends Command
         'mediumint@unsigned' => 'unsignedMediumInteger',
         'bigint'             => 'bigInteger',
         'bigint@unsigned'    => 'unsignedBigInteger',
-
         'date'      => 'date',
         'time'      => 'time',
         'datetime'  => 'dateTime',
         'timestamp' => 'timestamp',
-
         'enum'   => 'enum',
         'json'   => 'json',
         'binary' => 'binary',
-
         'float'   => 'float',
         'double'  => 'double',
         'decimal' => 'decimal',
-
         'varchar'    => 'string',
         'char'       => 'char',
         'text'       => 'text',
@@ -80,6 +76,7 @@ class TableCommand extends Command
             $modelName = ucfirst(Str::of( str_replace( config('one.app.replace_prefix'), '', $name)  )->camel());
             $item = [
                 'table'        => $name,
+                'class_name'   => $modelName,
                 'model'        => 'App\\Models\\'.$modelName,
                 'controller'   => 'App\\Admin\\Controllers\\'.$modelName.'Controller',
                 'repository'   => 'App\\Admin\\Repositories\\'.$modelName,
