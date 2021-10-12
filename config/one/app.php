@@ -53,7 +53,7 @@ return [
          'repository'   => 1,
          'migration'    => 1,
          'migrate'      => 0,
-         'timestamps'   => 1,
+         'timestamps'   => 0,
          'soft_deletes' => 1,
          'lang'         => 1,
          // $table->string('name')->comment('预约人');

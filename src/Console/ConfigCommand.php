@@ -41,7 +41,7 @@ class ConfigCommand extends Command
             $path = Helper::guessClassFileName($model);
             // $files->delete($path);
             if (!$files->exists($path) && isset($item['model']) && $item['class_name']) {
-                $paths['model'] = (new ModelCreator($item['table'], $model))
+                $paths['model'] = (new ModelCreator(config('one.app.replace_prefix').$item['table'], $model))
                                 ->create( $item['primary_key'], $item['timestamps'], $item['soft_deletes']);
                 $this->comment('created model:'.$path);
             }

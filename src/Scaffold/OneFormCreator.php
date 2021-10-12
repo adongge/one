@@ -27,7 +27,7 @@ EOF
         ];
 
         foreach ($fields as $field) {
-            if (empty($field['name'])) {
+            if (empty($field['name']) || isset($field['deleted_at'])) {
                 continue;
             }
 
