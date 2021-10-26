@@ -49,7 +49,7 @@ class ConfigCommand extends Command
             }
             $controller = 'App\\Admin\\Controllers\\'.$item['class_name'].'Controller';
             $route [] = [ 
-                'source' => "   \$router->resource('/".$item['table']."', ".$controller."::class);",
+                'source' => "   \$router->resource('/".$item['table']."', ".$item['class_name']."Controller');",
                 'comment' => $item['comment'] ,
                 'uri' => "{$item['table']}"
             ];
