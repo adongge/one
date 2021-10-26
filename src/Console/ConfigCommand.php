@@ -3,6 +3,7 @@
 namespace Adong\One\Console;
 
 use Adong\One\Scaffold\ControllerCreator;
+use Dcat\Admin\Models\Menu;
 use Dcat\Admin\Scaffold\LangCreator;
 use Dcat\Admin\Scaffold\MigrationCreator;
 use Dcat\Admin\Scaffold\ModelCreator;
@@ -35,6 +36,7 @@ class ConfigCommand extends Command
         $this->line('one helper command');
         $files = app('files');
         $list = config('one.app.list');
+        $route = [];
         foreach ($list as $item) {
             $path = [];
             $model = 'App\\Models\\'.$item['class_name'];
@@ -46,6 +48,11 @@ class ConfigCommand extends Command
                 $this->comment('created model:'.$path);
             }
             $controller = 'App\\Admin\\Controllers\\'.$item['class_name'].'Controller';
+            $route [] = [ 
+                'source' => "   \$router->resource('/".$item['table']."', ".$controller."::class);",
+                'comment' => $item['comment'] ,
+                'uri' => "{$item['table']}"
+            ];
             $path = Helper::guessClassFileName($controller);
             // $files->delete($path);
             if (!$files->exists($path) && isset($item['controller']) && $item['controller']) {
@@ -85,5 +92,25 @@ class ConfigCommand extends Command
             }
         }
         $this->info('create success');
+        $menu = [];
+        $createdAt = date('Y-m-d H:i:s');
+        foreach ($route as $r) {
+            $this->info($r['source']);
+            if(!Menu::query()->where('uri',$r['uri'])->exists()){
+                $menu [] =  [
+                    'parent_id'     => 0,
+                    'order'         => 1,
+                    'title'         => $r['comment'],
+                    'icon'          => 'feather icon-bar-chart-2',
+                    'uri'           => $r['uri'],
+                    'created_at'    => $createdAt,
+                ];
+            }
+        }
+        if($menu){
+            Menu::insert($menu);
+            (new Menu())->flushCache();
+        }
+        
     }
 }
