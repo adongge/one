@@ -54,6 +54,7 @@ return [
       [
          'table'        => 'service',//表名
          'class_name'   => 'Service',//实例名
+         'comment'      => '预约列表',
          'primary_key'  => 'id',//主键
          'model'        => 1,
          'controller'   => 1,
@@ -125,6 +126,7 @@ return [
       [
          'table'        => 'master_user',//表名
          'class_name'   => 'MasterUser',//实例名
+         'comment'      => '师傅列表',
          'primary_key'  => 'id',//主键
          'model'        => 1,
          'controller'   => 1,
