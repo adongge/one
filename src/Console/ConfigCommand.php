@@ -3,8 +3,8 @@
 namespace Adong\One\Console;
 
 use Adong\One\Scaffold\ControllerCreator;
+use Adong\One\Scaffold\OneLangCreator;
 use Dcat\Admin\Models\Menu;
-use Dcat\Admin\Scaffold\LangCreator;
 use Dcat\Admin\Scaffold\MigrationCreator;
 use Dcat\Admin\Scaffold\ModelCreator;
 use Dcat\Admin\Scaffold\RepositoryCreator;
@@ -60,7 +60,7 @@ class ConfigCommand extends Command
                 $this->comment('created controller:'.$path);
             }
             if($item['lang']){
-                $paths['lang'] = (new LangCreator($item['fields']))->create($controller);
+                $paths['lang'] = (new OneLangCreator($item))->create($controller);
                 $this->comment('created lang:'.$paths['lang']);
             }
             if($item['repository']){

@@ -15,6 +15,8 @@
 
 # 使用
 ```
+（注意：把config/app.php） 语言改成中文
+'locale' => 'zh-CN',
 # 发布配置文件和迁移文件
 php artisan adong:publish
 # 根据配置文件生成
