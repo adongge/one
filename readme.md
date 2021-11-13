@@ -13,7 +13,7 @@ composer install adong/one
 ```
 （注意：把config/app.php） 语言改成中文
 'locale' => 'zh-CN',
-# 发布配置文件和迁移文件
+# 发布配置文件或迁移文件
 php artisan adong:publish
 # 根据配置文件生成
 php artisan adong:config 
