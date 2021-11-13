@@ -23,8 +23,8 @@ php artisan adong:tables
 
 ### 本地开发修改
 ``` json
-// config/app.php =>providers 添加xxxServiceProvider::class 
-// composer init 之后在 composer.json 根增加
+# config/app.php =>providers 添加xxxServiceProvider::class 
+# composer init 之后在 composer.json 根增加
 "require":{},
 "extra": {
     "laravel": {
