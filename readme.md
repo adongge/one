@@ -1,4 +1,7 @@
-# Laravel Dcat-Admin 拓展自动化生成批量脚手架
+# Laravel Dcat-Admin 拓展脚手架
+- 命令行
+- 批量处理
+- 增加控制器表单数据类型配置
 
 ### install 安装
 ```
