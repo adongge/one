@@ -7,7 +7,7 @@ use Illuminate\Support\ServiceProvider;
 class OneServiceProvider extends ServiceProvider
 {
 
-      /**
+    /**
      * @var array
      */
     protected $commands = [

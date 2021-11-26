@@ -17,6 +17,8 @@ composer install adong/one
 php artisan adong:publish
 # 根据配置文件生成
 php artisan adong:config 
+# 生成后，手动执行 migrate 进行数据迁移
+php artisan migrate
 # 根据数据库表生成
 php artisan adong:tables
 ```

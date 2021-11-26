@@ -107,6 +107,15 @@ class ConfigCommand extends Command
                 ];
             }
         }
+        $menus = config('one.app.menus');
+        if($menus){
+            foreach ($menus as $cm) {
+                $this->info($cm['uri']);
+                if(!Menu::query()->where('uri',$r['uri'])->exists()){
+                    $menu [] =  $cm;
+                }
+            }
+        }
         if($menu){
             Menu::insert($menu);
             (new Menu())->flushCache();

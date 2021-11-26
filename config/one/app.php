@@ -17,6 +17,16 @@ return [
       'personal_access_tokens',
       'users'
    ],
+   'menus' => [
+      [
+         'parent_id'     => 0,
+         'order'         => 0,
+         'title'         => '企业信息',
+         'icon'          => 'feather icon-bar-chart-2',
+         'uri'           => 'company',
+         'created_at'    => \Illuminate\Support\Carbon::now()
+      ]
+   ],
    'replace_prefix' => 'dasf_',
    // 'integer',
    // 'unsignedInteger',
@@ -43,13 +53,6 @@ return [
    // 'text',
    // 'mediumText',
    // 'longText'
-            // $table->string('name')->comment('预约人');
-         // $table->string('mobile')->unique()->comment('手机');
-         // $table->dateTime('time_start')->comment('预约时间');
-         // $table->integer('total')->comment('本次服务');
-         // $table->dateTime('created_at')->nullable();
-         // $table->dateTime('updated_at')->nullable();
-         // $table->dateTime('deleted_at')->nullable();
    'list' => [
       [
          'table'        => 'service',//表名
@@ -115,14 +118,6 @@ return [
             ]
          ]
       ],
-      // $table->string('name')->comment('师傅名称');
-      // //$table->string('mobile')->unique()->comment('手机');
-      // $table->string('password')->comment('手机');
-      // $table->bigInteger('service_id')->comment('当前服务ID');
-      // $table->dateTime('created_at')->nullable();
-      // $table->dateTime('updated_at')->nullable();
-      // $table->dateTime('deleted_at')->nullable();
-
       [
          'table'        => 'master_user',//表名
          'class_name'   => 'MasterUser',//实例名
