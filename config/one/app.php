@@ -19,11 +19,75 @@ return [
    ],
    'menus' => [
       [
+         'title'         => '企业基础信息',
+         'uri'           => 'company',
          'parent_id'     => 0,
          'order'         => 0,
-         'title'         => '企业信息',
-         'icon'          => 'feather icon-bar-chart-2',
-         'uri'           => 'company',
+         'icon'          => 'feather icon-book',
+         'created_at'    => \Illuminate\Support\Carbon::now()
+      ],
+      [
+         'title'         => '投入品管理',
+         'uri'           => 'inputs',
+         'parent_id'     => 0,
+         'order'         => 0,
+         'icon'          => 'feather icon-box',
+         'created_at'    => \Illuminate\Support\Carbon::now()
+      ],
+      [
+         'title'         => '生产管理',
+         'uri'           => 'produce',
+         'parent_id'     => 0,
+         'order'         => 0,
+         'icon'          => 'feather icon-grid',
+         'created_at'    => \Illuminate\Support\Carbon::now()
+      ],
+      [
+         'title'         => '加工管理',
+         'uri'           => 'process',
+         'parent_id'     => 0,
+         'order'         => 0,
+         'icon'          => 'feather icon-shopping-cart',
+         'created_at'    => \Illuminate\Support\Carbon::now()
+      ],
+      [
+         'title'         => '销售流向',
+         'uri'           => 'sale',
+         'parent_id'     => 0,
+         'order'         => 0,
+         'icon'          => 'feather icon-file-text',
+         'created_at'    => \Illuminate\Support\Carbon::now()
+      ],
+      [
+         'title'         => '企业内审管理',
+         'uri'           => 'check',
+         'parent_id'     => 0,
+         'order'         => 0,
+         'icon'          => 'feather icon-edit',
+         'created_at'    => \Illuminate\Support\Carbon::now()
+      ],
+      [
+         'title'         => '检测信息',
+         'uri'           => 'testing',
+         'parent_id'     => 0,
+         'order'         => 0,
+         'icon'          => 'feather icon-file',
+         'created_at'    => \Illuminate\Support\Carbon::now()
+      ],
+      [
+         'title'         => '产品召回',
+         'uri'           => 'recall',
+         'parent_id'     => 0,
+         'order'         => 0,
+         'icon'          => 'feather icon-rotate-cw',
+         'created_at'    => \Illuminate\Support\Carbon::now()
+      ],
+      [
+         'title'         => '追溯信息',
+         'uri'           => 'review',
+         'parent_id'     => 0,
+         'order'         => 0,
+         'icon'          => 'feather icon-search',
          'created_at'    => \Illuminate\Support\Carbon::now()
       ]
    ],

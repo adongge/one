@@ -107,11 +107,10 @@ class ConfigCommand extends Command
                 ];
             }
         }
-        $menus = config('one.app.menus');
-        if($menus){
+        if($menus = config('one.app.menus')){
             foreach ($menus as $cm) {
                 $this->info($cm['uri']);
-                if(!Menu::query()->where('uri',$r['uri'])->exists()){
+                if(!Menu::query()->where('uri',$cm['uri'])->exists()){
                     $menu [] =  $cm;
                 }
             }
