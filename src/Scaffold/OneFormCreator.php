@@ -34,7 +34,7 @@ EOF
             if ($field['name'] == $primaryKey) {
                 continue;
             }
-            if(isset($field['form'])){
+            if(isset($field['form']) && $field['form']){
                 $rows[] = "            \$form->{$field['form']}('{$field['name']}');";
             }else{
                 $rows[] = "            \$form->text('{$field['name']}');";

@@ -28,6 +28,17 @@ class ConfigCommand extends Command
      */
     protected $description = 'one helper for dcat-admin with one config';
 
+    private function checkMigrateFile($files, $migrationName)
+    {
+        if ($migrationPath = database_path('migrations')) {
+            $migrationFiles = $files->glob($migrationPath.'/*'.$migrationName.'*.php');
+            if($migrationFiles){
+                return false;
+            }
+        }
+        return true;
+    }
+
     /**
      * Execute the console command.
      */
@@ -70,12 +81,14 @@ class ConfigCommand extends Command
             }
             if ($item['migration']) {
                 $migrationName = 'create_'.$item['table'].'_table';
-                $paths['migration'] = (new MigrationCreator(app('files')))->buildBluePrint(
-                    $item['fields'],
-                    $item['primary_key'],
-                    $item['timestamps'] == 1,
-                    $item['soft_deletes'] == 1
-                )->create($migrationName, database_path('migrations'), config('one.app.replace_prefix').$item['table']);
+                if($this->checkMigrateFile($files, $migrationName)){
+                    $paths['migration'] = (new MigrationCreator($files))->buildBluePrint(
+                        $item['fields'],
+                        $item['primary_key'],
+                        $item['timestamps'] == 1,
+                        $item['soft_deletes'] == 1
+                    )->create($migrationName, database_path('migrations'), config('one.app.replace_prefix').$item['table']);
+                }
             }
             // Run migrate.
             if ($item['migrate']) {
@@ -95,8 +108,8 @@ class ConfigCommand extends Command
         $menu = [];
         $createdAt = date('Y-m-d H:i:s');
         foreach ($route as $r) {
+            $this->info($r['source']);
             if(!Menu::query()->where('uri',$r['uri'])->exists()){
-                $this->info($r['source']);
                 $menu [] =  [
                     'parent_id'     => 0,
                     'order'         => 1,
