@@ -60,7 +60,7 @@ class ConfigCommand extends Command
                 $this->comment('created controller:'.$path);
             }
             if($item['lang']){
-                $paths['lang'] = (new OneLangCreator($item))->create($controller);
+                $paths['lang'] = (new OneLangCreator($item))->create($controller, $item['comment']);
                 $this->comment('created lang:'.$paths['lang']);
             }
             if($item['repository']){
@@ -95,8 +95,8 @@ class ConfigCommand extends Command
         $menu = [];
         $createdAt = date('Y-m-d H:i:s');
         foreach ($route as $r) {
-            $this->info($r['source']);
             if(!Menu::query()->where('uri',$r['uri'])->exists()){
+                $this->info($r['source']);
                 $menu [] =  [
                     'parent_id'     => 0,
                     'order'         => 1,
@@ -109,8 +109,8 @@ class ConfigCommand extends Command
         }
         if($menus = config('one.app.menus')){
             foreach ($menus as $cm) {
-                $this->info($cm['uri']);
                 if(!Menu::query()->where('uri',$cm['uri'])->exists()){
+                    $this->info($cm['uri']);
                     $menu [] =  $cm;
                 }
             }

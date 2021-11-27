@@ -24,7 +24,7 @@ class OneLangCreator extends LangCreator
      *
      * @return string
      */
-    public function create(string $controller)
+    public function create(string $controller, ?string $title)
     {
         $controller = str_replace('Controller', '', class_basename($controller));
 
