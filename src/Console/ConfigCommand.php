@@ -60,9 +60,9 @@ class ConfigCommand extends Command
             }
             $controller = 'App\\Admin\\Controllers\\'.$item['class_name'].'Controller';
             $route [] = [ 
-                'source' => "   \$router->resource('/".$item['table']."', '".$item['class_name']."Controller');",
+                'source' => "   \$router->resource('".$item['menu']."/".$item['table']."', '".$item['class_name']."Controller');",
                 'comment' => $item['comment'] ,
-                'uri' => "{$item['table']}"
+                'uri' => "{$item['menu']}/{$item['table']}"
             ];
             $path = Helper::guessClassFileName($controller);
             // $files->delete($path);
@@ -114,7 +114,7 @@ class ConfigCommand extends Command
                     'parent_id'     => 0,
                     'order'         => 1,
                     'title'         => $r['comment'],
-                    'icon'          => 'feather icon-bar-chart-2',
+                    'icon'          => '',
                     'uri'           => $r['uri'],
                     'created_at'    => $createdAt,
                 ];
