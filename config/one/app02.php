@@ -348,7 +348,35 @@ return [
                 ['name' => 'attachs', 'form' => 'multipleFile', 'nullable' => 'on', 'type' => 'string', 'key' => '', 'comment' => '附件', 'translation' => '附件']
             ]
         ],
-        //认证信息表附件 企业ID/附件名称/附件路径 
+        //认证信息表附件 企业ID/附件名称/附件路径
+        [
+            'table'        => 'certification_attach', 'class_name'   => 'CertificationAttach', //表名，实例名
+            'comment'      => '认证信息表附件', 'primary_key'  => 'id', //主键
+            'model'        => 1, 'controller'   => 0, 'repository'   => 1,
+            'migration'    => 1, 'migrate'      => 0, 'timestamps'   => 1,
+            'soft_deletes' => 0, 'lang'         => 0, 'menu' => 'company',
+            'fields' => [
+                ['name' => 'company_id', 'form' => '', 'nullable' => 'off', 'type' => 'unsignedInteger', 'key' => '', 'comment' => '企业ID', 'translation' => '企业ID'],
+                ['name' => 'name', 'form' => '', 'nullable' => 'on', 'type' => 'string', 'key' => '', 'comment' => '附件名称', 'translation' => '附件名称'],
+                ['name' => 'path', 'form' => '', 'nullable' => 'on', 'type' => 'string', 'key' => '', 'comment' => '附件路径', 'translation' => '附件路径']
+            ]
+        ],
         //投入品管理 名称/面积/图片/主管人/地址/电话/描述
+        [
+            'table'        => 'input', 'class_name'   => 'Input', //表名，实例名
+            'comment'      => '投入品管理', 'primary_key'  => 'id', //主键
+            'model'        => 1, 'controller'   => 1, 'repository'   => 1,
+            'migration'    => 1, 'migrate'      => 0, 'timestamps'   => 1,
+            'soft_deletes' => 0, 'lang'         => 1, 'menu' => 'inputs',
+            'fields' => [
+                ['name' => 'name', 'form' => '', 'nullable' => 'off', 'type' => 'string', 'key' => '', 'comment' => '名称', 'translation' => '名称'],
+                ['name' => 'area', 'form' => '', 'nullable' => 'on', 'type' => 'string', 'key' => '', 'comment' => '面积', 'translation' => '面积'],
+                ['name' => 'image', 'form' => 'image', 'nullable' => 'on', 'type' => 'string', 'key' => '', 'comment' => '图片', 'translation' => '图片'],
+                ['name' => 'manager', 'form' => '', 'nullable' => 'on', 'type' => 'string', 'key' => '', 'comment' => '主管人', 'translation' => '主管人'],
+                ['name' => 'phone', 'form' => 'mobile', 'nullable' => 'on', 'type' => 'string', 'key' => '', 'comment' => '电话', 'translation' => '手机号'],
+                ['name' => 'address', 'form' => '', 'nullable' => 'on', 'type' => 'string', 'key' => '', 'comment' => '地址', 'translation' => '地址'],
+                ['name' => 'description', 'form' => 'textarea', 'nullable' => 'on', 'type' => 'string', 'key' => '', 'comment' => '描述', 'translation' => '描述']
+            ]
+        ]
     ]
 ];
