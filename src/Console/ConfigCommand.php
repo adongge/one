@@ -59,11 +59,13 @@ class ConfigCommand extends Command
                 $this->comment('created model:'.$path);
             }
             $controller = 'App\\Admin\\Controllers\\'.$item['class_name'].'Controller';
-            $route [] = [ 
-                'source' => "   \$router->resource('".$item['menu']."/".$item['table']."', '".$item['class_name']."Controller');",
-                'comment' => $item['comment'] ,
-                'uri' => "{$item['menu']}/{$item['table']}"
-            ];
+            if(isset($item['controller']) && $item['controller']){
+                $route [] = [ 
+                    'source' => "   \$router->resource('".$item['menu']."/".$item['table']."', '".$item['class_name']."Controller');",
+                    'comment' => $item['comment'] ,
+                    'uri' => "{$item['menu']}/{$item['table']}"
+                ];
+            }
             $path = Helper::guessClassFileName($controller);
             // $files->delete($path);
             if (!$files->exists($path) && isset($item['controller']) && $item['controller']) {
@@ -123,7 +125,7 @@ class ConfigCommand extends Command
         if($menus = config('one.app.menus')){
             foreach ($menus as $cm) {
                 if(!Menu::query()->where('uri',$cm['uri'])->exists()){
-                    $this->info($cm['uri']);
+                    $this->info('add parent menu'.$cm['uri']);
                     $menu [] =  $cm;
                 }
             }
