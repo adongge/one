@@ -1,4 +1,5 @@
 <?php
+
 namespace Adong\One\Scaffold;
 
 use Dcat\Admin\Scaffold\ControllerCreator as BaseCreator;
@@ -6,7 +7,7 @@ use Dcat\Admin\Scaffold\ControllerCreator as BaseCreator;
 class ControllerCreator extends BaseCreator
 {
     use OneFormCreator;
-     /**
+    /**
      * ControllerCreator constructor.
      *
      * @param string $name
@@ -14,10 +15,10 @@ class ControllerCreator extends BaseCreator
      */
     public function __construct($name, $files = null)
     {
-        parent::__construct($name,$files);
+        parent::__construct($name, $files);
     }
 
-      /**
+    /**
      * Create a controller.
      *
      * @param string $model
@@ -28,11 +29,11 @@ class ControllerCreator extends BaseCreator
      */
     public function create($models)
     {
-        $model = 'App\\Models\\'.$models['class_name'];
+        $model = 'App\\Models\\' . $models['class_name'];
         $path = $this->getPath($this->name);
         $dir = dirname($path);
 
-        if (! is_dir($dir)) {
+        if (!is_dir($dir)) {
             $this->files->makeDirectory($dir, 0755, true);
         }
 
@@ -44,9 +45,9 @@ class ControllerCreator extends BaseCreator
 
         $slug = str_replace('Controller', '', class_basename($this->name));
 
-        $model = $model ?: 'App\Admin\Repositories\\'.$slug;
+        $model = $model ?: 'App\Admin\Repositories\\' . $slug;
 
-        $this->files->put($path, $this->oneReplace($stub, $this->name, $model, $slug,$models));
+        $this->files->put($path, $this->oneReplace($stub, $this->name, $model, $slug, $models));
         $this->files->chmod($path, 0777);
 
         return $path;
