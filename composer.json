@@ -16,7 +16,7 @@
     "minimum-stability": "dev",
     "require": {
         "php": "^7.3|^8.0",
-        "dcat/laravel-admin": "^1.7"
+        "dcat/laravel-admin": "2.0.22-beta"
     },
     "extra": {
         "laravel": {
