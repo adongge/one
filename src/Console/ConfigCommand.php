@@ -5,6 +5,7 @@ namespace Adong\One\Console;
 use Adong\One\Scaffold\ControllerCreator;
 use Adong\One\Scaffold\OneLangCreator;
 use Dcat\Admin\Models\Menu;
+use Dcat\Admin\Models\Permission;
 use Dcat\Admin\Scaffold\MigrationCreator;
 use Dcat\Admin\Scaffold\ModelCreator;
 use Dcat\Admin\Scaffold\RepositoryCreator;
@@ -48,6 +49,7 @@ class ConfigCommand extends Command
         $files = app('files');
         $list = config('one.app.list');
         $route = [];
+        $permissions = [];
         foreach ($list as $item) {
             $path = [];
             $model = 'App\\Models\\'.$item['class_name'];
@@ -64,6 +66,12 @@ class ConfigCommand extends Command
                     'source' => "   \$router->resource('".$item['menu']."/".$item['table']."', '".$item['class_name']."Controller');",
                     'comment' => $item['comment'] ,
                     'uri' => "{$item['menu']}/{$item['table']}"
+                ];
+
+                $permissions [] = [
+                    'name' => $item['comment'],
+                    'slug' => $item['menu'].'.'.$item['table'],
+                    'http_path' => '/'.$item['menu'].'/'.$item['table'].'*'
                 ];
             }
             $path = Helper::guessClassFileName($controller);
@@ -108,6 +116,7 @@ class ConfigCommand extends Command
         }
         $this->info('create success');
         $menu = [];
+        $permission = [];
         $createdAt = date('Y-m-d H:i:s');
         foreach ($route as $r) {
             $this->info($r['source']);
@@ -122,17 +131,44 @@ class ConfigCommand extends Command
                 ];
             }
         }
+        foreach ($permissions as $p) {
+            $this->info($p['slug']);
+            if(!Permission::query()->where('http_path',$p['http_path'])->exists()){
+                $permission [] =  [
+                    'parent_id'     => 0,
+                    'order'         => 1,
+                    'name'         => $p['name'],
+                    'slug'           => $p['slug'],
+                    'http_path'           => $p['http_path'],
+                    'created_at'    => $createdAt,
+                ];
+            }
+        }
         if($menus = config('one.app.menus')){
             foreach ($menus as $cm) {
                 if(!Menu::query()->where('uri',$cm['uri'])->exists()){
                     $this->info('add parent menu'.$cm['uri']);
                     $menu [] =  $cm;
                 }
+                if(!Permission::query()->where('slug',$cm['uri'])->exists()){
+                    $this->info('add parent permission'.$cm['uri']);
+                    $permission [] =  [
+                        'parent_id'     => 0,
+                        'order'         => 1,
+                        'name'         => $cm['title'],
+                        'slug'           => $cm['uri'],
+                        'http_path'           => '',
+                        'created_at'    => $createdAt,
+                    ];
+                }
             }
         }
         if($menu){
             Menu::insert($menu);
             (new Menu())->flushCache();
+        }
+        if($permission){
+            Permission::insert($permission);
         }
         
     }
