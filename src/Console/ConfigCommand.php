@@ -133,7 +133,7 @@ class ConfigCommand extends Command
         }
         foreach ($permissions as $p) {
             $this->info($p['slug']);
-            if(!Permission::query()->where('http_path',$p['http_path'])->exists()){
+            if(!Permission::query()->where('slug',$p['slug'])->exists()){
                 $permission [] =  [
                     'parent_id'     => 0,
                     'order'         => 1,
