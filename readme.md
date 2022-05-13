@@ -3,9 +3,9 @@
 - 批量处理
 - 增加控制器表单数据类型配置
 
-### install 安装
+### require 安装
 ```
-composer install adong/one
+composer require adong/one
 ```
 
 
