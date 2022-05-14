@@ -5,6 +5,8 @@
 
 ### require 安装
 ```
+# 安装dcat-admin
+composer require dcat/laravel-admin:"2.*" -vvv
 composer require adong/one
 ```
 
