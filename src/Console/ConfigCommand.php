@@ -41,6 +41,33 @@ class ConfigCommand extends Command
     }
 
     /**
+     * 创建菜单，子菜单。根据 title 和 uri 判断是否已经存在
+     * @return void
+     */
+    private function createMenu($item)
+    {
+        $children = false;
+        $where = ['title' => $item['title'], 'uri' => $item['uri']];
+        isset($item['children']) && $children = $item['children'];
+        unset($item['children']);
+        $menu = Menu::query()->firstOrCreate($where, $item);
+        if ($children) {
+            foreach ($children as $child) {
+                $child['parent_id'] = $menu->id;
+                $this->createMenu($child);
+            }
+        }
+    }
+
+    private function runCreateMenu()
+    {
+        $data = config('one.app.menus');
+        foreach ($data as $item) {
+            $this->createMenu($item);
+        }
+    }
+
+    /**
      * Execute the console command.
      */
     public function handle()
@@ -115,61 +142,62 @@ class ConfigCommand extends Command
             }
         }
         $this->info('create success');
-        $menu = [];
-        $permission = [];
-        $createdAt = date('Y-m-d H:i:s');
-        foreach ($route as $r) {
-            $this->info($r['source']);
-            if(!Menu::query()->where('uri',$r['uri'])->exists()){
-                $menu [] =  [
-                    'parent_id'     => 0,
-                    'order'         => 1,
-                    'title'         => $r['comment'],
-                    'icon'          => '',
-                    'uri'           => $r['uri'],
-                    'created_at'    => $createdAt,
-                ];
-            }
-        }
-        foreach ($permissions as $p) {
-            $this->info($p['slug']);
-            if(!Permission::query()->where('slug',$p['slug'])->exists()){
-                $permission [] =  [
-                    'parent_id'     => 0,
-                    'order'         => 1,
-                    'name'         => $p['name'],
-                    'slug'           => $p['slug'],
-                    'http_path'           => $p['http_path'],
-                    'created_at'    => $createdAt,
-                ];
-            }
-        }
-        if($menus = config('one.app.menus')){
-            foreach ($menus as $cm) {
-                if(!Menu::query()->where('uri',$cm['uri'])->exists()){
-                    $this->info('add parent menu'.$cm['uri']);
-                    $menu [] =  $cm;
-                }
-                if(!Permission::query()->where('slug',$cm['uri'])->exists()){
-                    $this->info('add parent permission'.$cm['uri']);
-                    $permission [] =  [
-                        'parent_id'     => 0,
-                        'order'         => 1,
-                        'name'         => $cm['title'],
-                        'slug'           => $cm['uri'],
-                        'http_path'           => '',
-                        'created_at'    => $createdAt,
-                    ];
-                }
-            }
-        }
-        if($menu){
-            Menu::insert($menu);
-            (new Menu())->flushCache();
-        }
-        if($permission){
-            Permission::insert($permission);
-        }
+        $this->runCreateMenu();
+        // $menu = [];
+        // $permission = [];
+        // $createdAt = date('Y-m-d H:i:s');
+        // foreach ($route as $r) {
+        //     $this->info($r['source']);
+        //     if(!Menu::query()->where('uri',$r['uri'])->exists()){
+        //         $menu [] =  [
+        //             'parent_id'     => 0,
+        //             'order'         => 1,
+        //             'title'         => $r['comment'],
+        //             'icon'          => '',
+        //             'uri'           => $r['uri'],
+        //             'created_at'    => $createdAt,
+        //         ];
+        //     }
+        // }
+        // foreach ($permissions as $p) {
+        //     $this->info($p['slug']);
+        //     if(!Permission::query()->where('slug',$p['slug'])->exists()){
+        //         $permission [] =  [
+        //             'parent_id'     => 0,
+        //             'order'         => 1,
+        //             'name'         => $p['name'],
+        //             'slug'           => $p['slug'],
+        //             'http_path'           => $p['http_path'],
+        //             'created_at'    => $createdAt,
+        //         ];
+        //     }
+        // }
+        // if($menus = config('one.app.menus')){
+        //     foreach ($menus as $cm) {
+        //         if(!Menu::query()->where('uri',$cm['uri'])->exists()){
+        //             $this->info('add parent menu'.$cm['uri']);
+        //             $menu [] =  $cm;
+        //         }
+        //         if(!Permission::query()->where('slug',$cm['uri'])->exists()){
+        //             $this->info('add parent permission'.$cm['uri']);
+        //             $permission [] =  [
+        //                 'parent_id'     => 0,
+        //                 'order'         => 1,
+        //                 'name'         => $cm['title'],
+        //                 'slug'           => $cm['uri'],
+        //                 'http_path'           => '',
+        //                 'created_at'    => $createdAt,
+        //             ];
+        //         }
+        //     }
+        // }
+        // if($menu){
+        //     Menu::insert($menu);
+        //     (new Menu())->flushCache();
+        // }
+        // if($permission){
+        //     Permission::insert($permission);
+        // }
         
     }
 }
