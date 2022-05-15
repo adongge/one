@@ -90,7 +90,7 @@ class ConfigCommand extends Command
             $controller = 'App\\Admin\\Controllers\\'.$item['class_name'].'Controller';
             if(isset($item['controller']) && $item['controller']){
                 $route [] = [ 
-                    'source' => "   \$router->resource('".$item['menu']."/".$item['table']."', '".$item['class_name']."Controller');",
+                    'source' => "   \$router->resource('".$item['menu']."', '".$item['class_name']."Controller');",
                     'comment' => $item['comment'] ,
                     'uri' => "{$item['menu']}/{$item['table']}"
                 ];
@@ -143,61 +143,49 @@ class ConfigCommand extends Command
         }
         $this->info('create success');
         $this->runCreateMenu();
-        // $menu = [];
-        // $permission = [];
-        // $createdAt = date('Y-m-d H:i:s');
-        // foreach ($route as $r) {
-        //     $this->info($r['source']);
-        //     if(!Menu::query()->where('uri',$r['uri'])->exists()){
-        //         $menu [] =  [
-        //             'parent_id'     => 0,
-        //             'order'         => 1,
-        //             'title'         => $r['comment'],
-        //             'icon'          => '',
-        //             'uri'           => $r['uri'],
-        //             'created_at'    => $createdAt,
-        //         ];
-        //     }
-        // }
-        // foreach ($permissions as $p) {
-        //     $this->info($p['slug']);
-        //     if(!Permission::query()->where('slug',$p['slug'])->exists()){
-        //         $permission [] =  [
-        //             'parent_id'     => 0,
-        //             'order'         => 1,
-        //             'name'         => $p['name'],
-        //             'slug'           => $p['slug'],
-        //             'http_path'           => $p['http_path'],
-        //             'created_at'    => $createdAt,
-        //         ];
-        //     }
-        // }
-        // if($menus = config('one.app.menus')){
-        //     foreach ($menus as $cm) {
-        //         if(!Menu::query()->where('uri',$cm['uri'])->exists()){
-        //             $this->info('add parent menu'.$cm['uri']);
-        //             $menu [] =  $cm;
-        //         }
-        //         if(!Permission::query()->where('slug',$cm['uri'])->exists()){
-        //             $this->info('add parent permission'.$cm['uri']);
-        //             $permission [] =  [
-        //                 'parent_id'     => 0,
-        //                 'order'         => 1,
-        //                 'name'         => $cm['title'],
-        //                 'slug'           => $cm['uri'],
-        //                 'http_path'           => '',
-        //                 'created_at'    => $createdAt,
-        //             ];
-        //         }
-        //     }
-        // }
-        // if($menu){
-        //     Menu::insert($menu);
-        //     (new Menu())->flushCache();
-        // }
-        // if($permission){
-        //     Permission::insert($permission);
-        // }
+        $permission = [];
+        $createdAt = date('Y-m-d H:i:s');
+        // 输出路由推荐配置
+        foreach ($route as $r) {
+            $this->info($r['source']);
+        }
+        //添加权限
+        foreach ($permissions as $p) {
+            if(!Permission::query()->where('slug',$p['slug'])->exists()){
+                $permission [] =  [
+                    'parent_id'     => 0,
+                    'order'         => 1,
+                    'name'         => $p['name'],
+                    'slug'           => $p['slug'],
+                    'http_path'           => $p['http_path'],
+                    'created_at'    => $createdAt,
+                ];
+            }
+        }
+        //添加权限
+        if($menus = config('one.app.menus')){
+            foreach ($menus as $cm) {
+                $slug = $cm['uri'] ?? $cm['slug'];
+                if(!Permission::query()->where('slug',$slug)->exists()){
+                    $this->info('add parent permission '.$slug);
+                    $permission [] =  [
+                        'parent_id'     => 0,
+                        'order'         => 1,
+                        'name'         => $cm['title'],
+                        'slug'           => $slug,
+                        'http_path'           => '',
+                        'created_at'    => $createdAt,
+                    ];
+                }
+            }
+        }
+        if($permission){
+            try {
+                Permission::query()->insert($permission);
+            } catch (\Throwable $e) {
+                $this->error('add permission error'.$e->getMessage());
+            }
+        }
         
     }
 }
