@@ -4,9 +4,10 @@ namespace Adong\One\Console;
 
 use Adong\One\Scaffold\ControllerCreator;
 use Adong\One\Scaffold\OneLangCreator;
+use Adong\One\Scaffold\OneMigrationCreator;
+
 use Dcat\Admin\Models\Menu;
 use Dcat\Admin\Models\Permission;
-use Dcat\Admin\Scaffold\MigrationCreator;
 use Dcat\Admin\Scaffold\ModelCreator;
 use Dcat\Admin\Scaffold\RepositoryCreator;
 use Dcat\Admin\Support\Helper;
@@ -119,7 +120,7 @@ class ConfigCommand extends Command
             if ($item['migration']) {
                 $migrationName = 'create_'.$item['table'].'_table';
                 if($this->checkMigrateFile($files, $migrationName)){
-                    $paths['migration'] = (new MigrationCreator($files))->buildBluePrint(
+                    $paths['migration'] = (new OneMigrationCreator($files))->buildBluePrint(
                         $item['fields'],
                         $item['primary_key'],
                         $item['timestamps'] == 1,
