@@ -115,7 +115,7 @@ class ConfigCommand extends Command
             if($item['repository']){
                 $repositories = 'App\\Admin\\Repositories\\'.$item['class_name'];
                 $paths['repository'] = (new RepositoryCreator())->create($item['class_name'], $repositories);
-                $this->comment('created repository');
+                $this->comment('created repository'.$paths['repository']);
             }
             if ($item['migration']) {
                 $migrationName = 'create_'.$item['table'].'_table';
