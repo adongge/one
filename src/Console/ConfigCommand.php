@@ -83,11 +83,13 @@ class ConfigCommand extends Command
             $model = 'App\\Models\\'.$item['class_name'];
             $path = Helper::guessClassFileName($model);
             // $files->delete($path);
+            //生成Model
             if (!$files->exists($path) && isset($item['model']) && $item['class_name']) {
                 $paths['model'] = (new ModelCreator(config('one.app.replace_prefix').$item['table'], $model))
                                 ->create( $item['primary_key'], $item['timestamps'], $item['soft_deletes']);
                 $this->comment('created model:'.$path);
             }
+            //生成Controller 对应路由信息、权限信息
             $controller = 'App\\Admin\\Controllers\\'.$item['class_name'].'Controller';
             if(isset($item['controller']) && $item['controller']){
                 $route [] = [ 
@@ -95,7 +97,7 @@ class ConfigCommand extends Command
                     'comment' => $item['comment'] ,
                     'uri' => "{$item['menu']}/{$item['table']}"
                 ];
-
+                //为Controller 添加权限
                 $permissions [] = [
                     'name' => $item['comment'],
                     'slug' => $item['menu'].'.'.$item['table'],
@@ -104,19 +106,23 @@ class ConfigCommand extends Command
             }
             $path = Helper::guessClassFileName($controller);
             // $files->delete($path);
+            //生成Controller
             if (!$files->exists($path) && isset($item['controller']) && $item['controller']) {
                 $paths['controller'] = (new ControllerCreator($controller))->create($item);
                 $this->comment('created controller:'.$path);
             }
+            //生成lang
             if($item['lang']){
                 $paths['lang'] = (new OneLangCreator($item))->create($controller, $item['comment']);
                 $this->comment('created lang:'.$paths['lang']);
             }
+            //生成 Repository
             if($item['repository']){
                 $repositories = 'App\\Admin\\Repositories\\'.$item['class_name'];
                 $paths['repository'] = (new RepositoryCreator())->create($item['class_name'], $repositories);
                 $this->comment('created repository'.$paths['repository']);
             }
+            //生成Migration
             if ($item['migration']) {
                 $migrationName = 'create_'.$item['table'].'_table';
                 if($this->checkMigrateFile($files, $migrationName)){
@@ -128,7 +134,7 @@ class ConfigCommand extends Command
                     )->create($migrationName, database_path('migrations'), config('one.app.replace_prefix').$item['table']);
                 }
             }
-            // Run migrate.
+            // 执行 migrate.
             if ($item['migrate']) {
                 Artisan::call('migrate');
                 $message = Artisan::output();
@@ -143,6 +149,7 @@ class ConfigCommand extends Command
             }
         }
         $this->info('create success');
+        //生成菜单
         $this->runCreateMenu();
         $permission = [];
         $createdAt = date('Y-m-d H:i:s');
