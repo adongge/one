@@ -7,7 +7,7 @@ use Illuminate\Database\Migrations\MigrationCreator as BaseMigrationCreator;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Arr;
 
-class OneMigrationCreator extends BaseMigrationCreator
+class V2MigrationCreator extends BaseMigrationCreator
 {
     /**
      * @var string
@@ -42,10 +42,10 @@ class OneMigrationCreator extends BaseMigrationCreator
 
         $stub = $this->files->get(__DIR__.'/stubs/create.stub');
 
-        $this->files->put($path, $this->populateStub($name, $stub, $table));
+        $this->files->put($path, $this->populateAdminStub($name, $stub, $table));
         $this->files->chmod($path, 0777);
 
-        $this->firePostCreateHooks($table,  $path);
+        $this->firePostCreateHooks($table, $path);
 
         return $path;
     }
@@ -58,24 +58,13 @@ class OneMigrationCreator extends BaseMigrationCreator
      * @param  string  $table
      * @return mixed
      */
-    protected function populateStub($stub, $table)
+    protected function populateAdminStub($name, $stub, $table)
     {
-        // return str_replace(
-        //     ['DummyClass', 'DummyTable', 'DummyStructure'],
-        //     [$this->getClassName($name), $table, $this->bluePrint],
-        //     $stub
-        // );
-        // Here we will replace the table place-holders with the table specified by
-        // the developer, which is useful for quickly creating a tables creation
-        // or update migration from the console instead of typing it manually.
-        if (! is_null($table)) {
-            $stub = str_replace(
-                ['DummyTable', '{{ table }}', '{{table}}'],
-                $table, $stub
-            );
-        }
-
-        return $stub;
+        return str_replace(
+            ['DummyClass', 'DummyTable', 'DummyStructure'],
+            [$this->getClassName($name), $table, $this->bluePrint],
+            $stub
+        );
     }
 
     /**
@@ -106,6 +95,7 @@ class OneMigrationCreator extends BaseMigrationCreator
             if (isset($field['type_params']) && ! empty($field['type_params'])) {
                 $type_params = ','.$field['type_params'];
             }
+            // $column = "\$table->{$field['type']}('{$field['name']}')";
             $column = "\$table->{$field['type']}('{$field['name']}'{$type_params})";
 
             if ($field['key']) {
